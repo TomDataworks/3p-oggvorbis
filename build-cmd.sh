@@ -16,7 +16,7 @@ if [ "$OSTYPE" = "cygwin" ] ; then
 fi
 
 OGG_VERSION=1.1.3
-OGG_SOURCE_DIR="ogg-$OGG_VERSION"
+OGG_SOURCE_DIR="libogg-$OGG_VERSION"
 
 # load autbuild provided shell functions and variables
 eval "$("$AUTOBUILD" source_environment)"
@@ -30,18 +30,16 @@ pushd "$OGG_SOURCE_DIR"
             packages="$(cygpath -m "$stage/packages")"
             load_vsvars
 
-            pushd lib
-            nmake /f Makefile.vc10 CFG=debug-ssl-zlib \
-                INCLUDE="$INCLUDE;$packages/include;$packages/include/zlib;$packages/include/openssl;$packages/include/ares" \
-                LIB="$LIB;$packages/lib/debug"
-            nmake /f Makefile.vc10 CFG=release-ssl-zlib \
-                INCLUDE="$INCLUDE;$packages/include;$packages/include/zlib;$packages/include/openssl;$packages/include/ares" \
-                LIB="$LIB;$packages/lib/release"
-            popd
+			#devenv.com /Upgrade "win32/ogg.dsw"
+
+			build_sln "win32/ogg.dsw" "Debug|Win32"
+            build_sln "win32/ogg.dsw" "Release|Win32"
 
             mkdir -p "$stage/lib"/{debug,release}
-            cp "lib/debug-ssl-zlib/liboggd.lib" "$stage/lib/debug/liboggd.lib"
-            cp "lib/release-ssl-zlib/libogg.lib" "$stage/lib/release/libogg.lib"
+            cp "win32/Static_Debug/ogg_static_d.lib" "$stage/lib/debug/ogg_static_d.lib"
+            cp "win32/Static_Debug/vc100.pdb" "$stage/lib/debug/ogg_static_d.pdb"
+            cp "win32/Static_Release/ogg_static.lib" "$stage/lib/release/ogg_static.lib"
+            cp "win32/Static_Release/vc100.pdb" "$stage/lib/release/ogg_static.pdb"
 
             mkdir -p "$stage/include"
             cp -a "include/ogg/" "$stage/include/"

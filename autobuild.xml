@@ -24,12 +24,22 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>../build-cmd.sh</string>
+                <string>bash</string>
+                <key>options</key>
+                <array>
+                  <string>-c</string>
+                  <string>../build-cmd.sh</string>
+                </array>
               </map>
               <key>name</key>
               <string>default</string>
             </map>
           </map>
+          <key>manifest</key>
+          <array>
+            <string>include/ogg/*.h</string>
+            <string>LICENSES/ogg-vorbis.txt</string>
+          </array>
           <key>name</key>
           <string>common</string>
         </map>
@@ -50,6 +60,10 @@
               <string>default</string>
             </map>
           </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/*.a</string>
+          </array>
           <key>name</key>
           <string>darwin</string>
         </map>
@@ -70,6 +84,10 @@
               <string>default</string>
             </map>
           </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/*.a</string>
+          </array>
           <key>name</key>
           <string>linux</string>
         </map>
@@ -90,6 +108,13 @@
               <string>default</string>
             </map>
           </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/debug/*.pdb</string>
+            <string>lib/debug/*.lib</string>
+            <string>lib/release/*.pdb</string>
+            <string>lib/release/*.lib</string>
+          </array>
           <key>name</key>
           <string>windows</string>
         </map>
