@@ -29,9 +29,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = x86_64-unknown-linux-gnu
-host_triplet = x86_64-unknown-linux-gnu
-target_triplet = x86_64-unknown-linux-gnu
+build_triplet = i386-apple-darwin10.6.0
+host_triplet = i386-apple-darwin10.6.0
+target_triplet = i386-apple-darwin10.6.0
 EXTRA_PROGRAMS = latticebuild$(EXEEXT) latticepare$(EXEEXT) \
 	latticehint$(EXEEXT) latticetune$(EXEEXT) huffbuild$(EXEEXT) \
 	distribution$(EXEEXT)
@@ -94,17 +94,17 @@ DIST_SOURCES = $(distribution_SOURCES) $(huffbuild_SOURCES) \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run aclocal-1.10
+ACLOCAL = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run aclocal-1.10
 ALLOCA = 
-AMTAR = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run tar
+AMTAR = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run automake-1.10
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run autoconf
+AUTOHEADER = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run autoheader
+AUTOMAKE = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run automake-1.10
+AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -O20 -ffast-math -D_REENTRANT -fsigned-char  -DUSE_MEMORY_H
+CFLAGS = -DDARWIN -fno-common -force_cpusubtype_ALL -Wall -g -O4 -ffast-math -fsigned-char  -DUSE_MEMORY_H
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
@@ -112,18 +112,18 @@ CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
-DEBUG = -g -Wall -W -D_REENTRANT -D__NO_MATH_INLINES -fsigned-char
+DEBUG = -DDARWIN -fno-common -force_cpusubtype_ALL -Wall -g -O0 -fsigned-char
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 ECHO = echo
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 EXEEXT = 
 F77 = 
 FFLAGS = 
-GREP = /bin/grep
+GREP = /usr/bin/grep
 HAVE_PKG_CONFIG = yes
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -136,12 +136,12 @@ LIBS =
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
-MAINT = 
-MAKEINFO = ${SHELL} /home/giles/projects/ghostscript/libvorbis-1.2.0/missing --run makeinfo
-MKDIR_P = /bin/mkdir -p
+MAINT = #
+MAKEINFO = ${SHELL} /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/missing --run makeinfo
+MKDIR_P = .././install-sh -c -d
 OBJEXT = o
-OGG_CFLAGS =  
-OGG_LIBS = -logg  
+OGG_CFLAGS = -I/Users/andrewdelaix/Projects/oggvorbis/stage/include
+OGG_LIBS = -L/Users/andrewdelaix/Projects/oggvorbis/stage/lib -logg
 PACKAGE = libvorbis
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
@@ -151,10 +151,10 @@ PACKAGE_VERSION =
 PATH_SEPARATOR = :
 PDFXMLTEX = 
 PKG_CONFIG = /usr/bin/pkg-config
-PROFILE = -pg -g -O20 -ffast-math -D_REENTRANT -fsigned-char
+PROFILE = -DDARWIN -fno-common -force_cpusubtype_ALL -Wall -g -pg -O4 -ffast-math -fsigned-char
 RANLIB = ranlib
 SET_MAKE = 
-SHELL = /bin/bash
+SHELL = /bin/sh
 STRIP = strip
 VERSION = 1.2.0
 VE_LIB_AGE = 0
@@ -168,10 +168,10 @@ V_LIB_AGE = 4
 V_LIB_CURRENT = 4
 V_LIB_REVISION = 0
 XSLTPROC = 
-abs_builddir = /home/giles/projects/ghostscript/libvorbis-1.2.0/vq
-abs_srcdir = /home/giles/projects/ghostscript/libvorbis-1.2.0/vq
-abs_top_builddir = /home/giles/projects/ghostscript/libvorbis-1.2.0
-abs_top_srcdir = /home/giles/projects/ghostscript/libvorbis-1.2.0
+abs_builddir = /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/vq
+abs_srcdir = /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/vq
+abs_top_builddir = /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0
+abs_top_srcdir = /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_F77 = 
@@ -181,35 +181,35 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
-build = x86_64-unknown-linux-gnu
+build = i386-apple-darwin10.6.0
 build_alias = 
-build_cpu = x86_64
-build_os = linux-gnu
-build_vendor = unknown
+build_cpu = i386
+build_os = darwin10.6.0
+build_vendor = apple
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = x86_64-unknown-linux-gnu
+host = i386-apple-darwin10.6.0
 host_alias = 
-host_cpu = x86_64
-host_os = linux-gnu
-host_vendor = unknown
+host_cpu = i386
+host_os = darwin10.6.0
+host_vendor = apple
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/giles/projects/ghostscript/libvorbis-1.2.0/install-sh
+install_sh = $(SHELL) /Users/andrewdelaix/Projects/oggvorbis/libvorbis-1.2.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
 mandir = ${datarootdir}/man
-mkdir_p = /bin/mkdir -p
+mkdir_p = $(top_builddir)/./install-sh -c -d
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /Users/andrewdelaix/Projects/oggvorbis/stage
 program_transform_name = s,x,x,
 psdir = ${docdir}
 pthread_lib = -lpthread
@@ -217,14 +217,14 @@ sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
-target = x86_64-unknown-linux-gnu
+target = i386-apple-darwin10.6.0
 target_alias = 
-target_cpu = x86_64
-target_os = linux-gnu
-target_vendor = unknown
+target_cpu = i386
+target_os = darwin10.6.0
+target_vendor = apple
 top_builddir = ..
 top_srcdir = ..
-INCLUDES = -I../lib -I$(top_srcdir)/include  
+INCLUDES = -I../lib -I$(top_srcdir)/include -I/Users/andrewdelaix/Projects/oggvorbis/stage/include
 CLEANFILES = $(EXTRA_PROGRAMS)
 AM_LDFLAGS = -static
 LDADD = ../lib/libvorbis.la
@@ -251,7 +251,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -276,9 +276,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: # $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 distribution$(EXEEXT): $(distribution_OBJECTS) $(distribution_DEPENDENCIES) 
 	@rm -f distribution$(EXEEXT)
@@ -520,10 +520,10 @@ uninstall-am:
 
 
 debugvq:
-	$(MAKE) vq CFLAGS="-g -Wall -W -D_REENTRANT -D__NO_MATH_INLINES -fsigned-char"
+	$(MAKE) vq CFLAGS="-DDARWIN -fno-common -force_cpusubtype_ALL -Wall -g -O0 -fsigned-char"
 
 profilevq:
-	$(MAKE) vq CFLAGS="-pg -g -O20 -ffast-math -D_REENTRANT -fsigned-char"
+	$(MAKE) vq CFLAGS="-DDARWIN -fno-common -force_cpusubtype_ALL -Wall -g -pg -O4 -ffast-math -fsigned-char"
 
 vq: 
 	$(MAKE) $(EXTRA_PROGRAMS) 

@@ -70,8 +70,39 @@ case "$AUTOBUILD_PLATFORM" in
         popd
     ;;
     "darwin")
-    ;;
+        pushd "$OGG_SOURCE_DIR"
+        ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+        ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        mv "$stage/lib" "$stage/release"
+        mkdir -p "$stage/lib"
+        mv "$stage/release" "$stage/lib"
+     ;;
     "linux")
+        pushd "$OGG_SOURCE_DIR"
+        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"$stage/lib"
+        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        mv "$stage/lib" "$stage/release"
+        mkdir -p "$stage/lib"
+        mv "$stage/release" "$stage/lib"
     ;;
 esac
 mkdir -p "$stage/LICENSES"
