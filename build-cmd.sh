@@ -49,11 +49,23 @@ case "$AUTOBUILD_PLATFORM" in
         
         build_sln "win32/vorbis.sln" "Debug|Win32" "vorbis_static"
         build_sln "win32/vorbis.sln" "Release|Win32" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisfile_static"
         
-        cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static.lib"
-        cp "win32/Vorbis_Static_Debug/vc100.pdb" "$stage/lib/debug/vorbis_static.pdb"
+        cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static_d.lib"
+        cp "win32/Vorbis_Static_Debug/vc100.pdb" "$stage/lib/debug/vorbis_static_d.pdb"
         cp "win32/Vorbis_Static_Release/vorbis_static.lib" "$stage/lib/release/vorbis_static.lib"
         cp "win32/Vorbis_Static_Release/vc100.pdb" "$stage/lib/release/vorbis_static.pdb"
+        cp "win32/VorbisEnc_Static_Debug/vorbisenc_static_d.lib" "$stage/lib/debug/vorbisenc_static_d.lib"
+        cp "win32/VorbisEnc_Static_Debug/vc100.pdb" "$stage/lib/debug/vorbisenc_static_d.pdb"
+        cp "win32/VorbisEnc_Static_Release/vorbisenc_static.lib" "$stage/lib/release/vorbisenc_static.lib"
+        cp "win32/VorbisEnc_Static_Release/vc100.pdb" "$stage/lib/release/vorbis_static.pdb"
+        cp "win32/VorbisFile_Static_Debug/vorbisfile_static_d.lib" "$stage/lib/debug/vorbisfile_static_d.lib"
+        cp "win32/VorbisFile_Static_Debug/vc100.pdb" "$stage/lib/debug/vorbis_static_d.pdb"
+        cp "win32/VorbisFile_Static_Release/vorbisfile_static.lib" "$stage/lib/release/vorbisfile_static.lib"
+        cp "win32/VorbisFile_Static_Release/vc100.pdb" "$stage/lib/release/vorbis_static.pdb"
         cp -a "include/vorbis/" "$stage/include/"
         popd
     ;;
