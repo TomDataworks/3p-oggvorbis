@@ -38,6 +38,7 @@
           <key>manifest</key>
           <array>
             <string>include/ogg/*.h</string>
+            <string>include/vorbis/*.h</string>
             <string>LICENSES/ogg-vorbis.txt</string>
           </array>
           <key>name</key>
