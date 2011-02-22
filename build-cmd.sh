@@ -58,7 +58,22 @@ case "$AUTOBUILD_PLATFORM" in
         popd
     ;;
     "darwin")
-    ;;
+        pushd "$OGG_SOURCE_DIR"
+        ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+        ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        mv "$stage/lib" "$stage/release"
+        mkdir -p "$stage/lib"
+        mv "$stage/release" "$stage/lib"
+     ;;
     "linux")
     ;;
 esac
