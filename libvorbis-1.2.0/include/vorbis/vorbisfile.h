@@ -48,6 +48,9 @@ typedef struct {
  * ov_open() to avoid problems with incompatable crt.o version linking
  * issues. */
 
+// These definitions generate compilation errors on some platforms.
+#if 0
+
 static int _ov_header_fseek_wrap(FILE *f,ogg_int64_t off,int whence){
   if(f==NULL)return(-1);
   return fseek(f,off,whence);
@@ -80,6 +83,7 @@ static ov_callbacks OV_CALLBACKS_STREAMONLY_NOCLOSE = {
   (int (*)(void *))                             NULL,
   (long (*)(void *))                            NULL
 };
+# endif
 
 #define  NOTOPEN   0
 #define  PARTOPEN  1
