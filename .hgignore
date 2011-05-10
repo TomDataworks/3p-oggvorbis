@@ -1,6 +1,6 @@
 syntax:glob
 libogg-*/win32/Static_Debug
 libogg-*/win32/Static_Release
-libvorbis-*/win32/Vorbis_Static_Debug
-libvorbis-*/win32/Vorbis_Static_Release
+libvorbis-*/win32/Vorbis*_Static_Debug
+libvorbis-*/win32/Vorbis*_Static_Release
 stage/

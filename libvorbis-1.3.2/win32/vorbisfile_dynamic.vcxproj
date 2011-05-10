@@ -67,7 +67,7 @@
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\ogg\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\stage\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\VorbisFile_Dynamic_Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\VorbisFile_Dynamic_Debug\vorbisfile_dynamic.pch</PrecompiledHeaderOutputFile>
@@ -111,7 +111,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\ogg\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\stage\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\VorbisFile_Dynamic_Release\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\VorbisFile_Dynamic_Release\vorbisfile_dynamic.pch</PrecompiledHeaderOutputFile>
