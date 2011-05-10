@@ -15,9 +15,9 @@ if [ "$OSTYPE" = "cygwin" ] ; then
     export AUTOBUILD="$(cygpath -u $AUTOBUILD)"
 fi
 
-OGG_VERSION=1.1.3
+OGG_VERSION=1.2.2
 OGG_SOURCE_DIR="libogg-$OGG_VERSION"
-VORBIS_VERSION=1.2.0
+VORBIS_VERSION=1.3.2
 VORBIS_SOURCE_DIR=libvorbis-$VORBIS_VERSION
 
 # load autbuild provided shell functions and variables
