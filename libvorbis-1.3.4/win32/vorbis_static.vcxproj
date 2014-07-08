@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -17,20 +17,24 @@
   <PropertyGroup Label="Globals">
     <SccProjectName />
     <SccLocalPath />
+    <ProjectGuid>{0D5407D3-B967-C7B1-1EE6-99F713608C42}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -48,14 +52,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Vorbis_Dynamic_Release\</OutDir>
-    <IntDir>.\Vorbis_Dynamic_Release\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <OutDir>.\Vorbis_Static_Release\</OutDir>
+    <IntDir>.\Vorbis_Static_Release\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\Vorbis_Dynamic_Debug\</OutDir>
-    <IntDir>.\Vorbis_Dynamic_Debug\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
+    <OutDir>.\Vorbis_Static_Debug\</OutDir>
+    <IntDir>.\Vorbis_Static_Debug\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -66,38 +68,28 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\stage\include;..\include;..\win32\src;..\..\vorbis\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VORBIS_IEEE_FLOAT32;_USE_NON_INTEL_COMPILER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Vorbis_Dynamic_Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Vorbis_Dynamic_Release\vorbis_dynamic.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Vorbis_Dynamic_Release\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Vorbis_Dynamic_Release\</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>..\include;..\..\stage\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Vorbis_Static_Release\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Vorbis_Static_Release\vorbis_static.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Vorbis_Static_Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Vorbis_Static_Release\</ProgramDataBaseFileName>
+      <AdditionalOptions> /O3 /QaxK /Qsox- /Qip </AdditionalOptions>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
-    <Midl>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Vorbis_Dynamic_Release\vorbis_dynamic.tlb</TypeLibraryName>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <TargetEnvironment>Win32</TargetEnvironment>
-    </Midl>
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Vorbis_Dynamic_Release\vorbis_dynamic.bsc</OutputFile>
+      <OutputFile>.\Vorbis_Static_Release\vorbis_static.bsc</OutputFile>
     </Bscmake>
-    <Link>
+    <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <LinkDLL>true</LinkDLL>
-      <SubSystem>Console</SubSystem>
-      <OutputFile>Vorbis_Dynamic_Release/vorbis.dll</OutputFile>
-      <ImportLibrary>.\Vorbis_Dynamic_Release\vorbis.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\..\ogg\win32\Dynamic_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\vorbis.def</ModuleDefinitionFile>
-    </Link>
+      <OutputFile>.\Vorbis_Static_Release\vorbis_static.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,41 +100,27 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\stage\include;..\include;..\win32\src;..\..\vorbis\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Vorbis_Dynamic_Debug\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Vorbis_Dynamic_Debug\vorbis_dynamic.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Vorbis_Dynamic_Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Vorbis_Dynamic_Debug\</ProgramDataBaseFileName>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <AdditionalIncludeDirectories>..\include;..\..\stage\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Vorbis_Static_Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Vorbis_Static_Debug\vorbis_static.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Vorbis_Static_Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Vorbis_Static_Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
-    <Midl>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Vorbis_Dynamic_Debug\vorbis_dynamic.tlb</TypeLibraryName>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <TargetEnvironment>Win32</TargetEnvironment>
-    </Midl>
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Vorbis_Dynamic_Debug\vorbis_dynamic.bsc</OutputFile>
+      <OutputFile>.\Vorbis_Static_Debug\vorbis_static.bsc</OutputFile>
     </Bscmake>
-    <Link>
+    <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <LinkDLL>true</LinkDLL>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
-      <OutputFile>Vorbis_Dynamic_Debug/vorbis_d.dll</OutputFile>
-      <ImportLibrary>.\Vorbis_Dynamic_Debug\vorbis_d.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\..\ogg\win32\Dynamic_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ogg_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\vorbis.def</ModuleDefinitionFile>
-    </Link>
+      <OutputFile>Vorbis_Static_Debug\vorbis_static_d.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\analysis.c" />
@@ -169,12 +147,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\backends.h" />
-    <ClInclude Include="..\lib\bitbuffer.h" />
     <ClInclude Include="..\lib\bitrate.h" />
     <ClInclude Include="..\lib\codebook.h" />
     <ClInclude Include="..\include\vorbis\codec.h" />
     <ClInclude Include="..\lib\codec_internal.h" />
     <ClInclude Include="..\lib\envelope.h" />
+    <ClInclude Include="..\lib\modes\floor_all.h" />
+    <ClInclude Include="..\lib\books\floor\floor_books.h" />
     <ClInclude Include="..\lib\highlevel.h" />
     <ClInclude Include="..\lib\lookup.h" />
     <ClInclude Include="..\lib\lookup_data.h" />
@@ -185,13 +164,30 @@
     <ClInclude Include="..\lib\misc.h" />
     <ClInclude Include="..\lib\os.h" />
     <ClInclude Include="..\lib\psy.h" />
+    <ClInclude Include="..\lib\modes\psych_11.h" />
+    <ClInclude Include="..\lib\modes\psych_16.h" />
+    <ClInclude Include="..\lib\modes\psych_44.h" />
+    <ClInclude Include="..\lib\modes\psych_8.h" />
     <ClInclude Include="..\lib\registry.h" />
+    <ClInclude Include="..\lib\books\coupled\res_books_stereo.h" />
+    <ClInclude Include="..\lib\books\uncoupled\res_books_uncoupled.h" />
+    <ClInclude Include="..\lib\modes\residue_16.h" />
+    <ClInclude Include="..\lib\modes\residue_44.h" />
+    <ClInclude Include="..\lib\modes\residue_44u.h" />
+    <ClInclude Include="..\lib\modes\residue_8.h" />
     <ClInclude Include="..\lib\scales.h" />
+    <ClInclude Include="..\lib\modes\setup_11.h" />
+    <ClInclude Include="..\lib\modes\setup_16.h" />
+    <ClInclude Include="..\lib\modes\setup_22.h" />
+    <ClInclude Include="..\lib\modes\setup_32.h" />
+    <ClInclude Include="..\lib\modes\setup_44.h" />
+    <ClInclude Include="..\lib\modes\setup_44u.h" />
+    <ClInclude Include="..\lib\modes\setup_8.h" />
+    <ClInclude Include="..\lib\modes\setup_X.h" />
     <ClInclude Include="..\lib\smallft.h" />
+    <ClInclude Include="..\include\vorbis\vorbisenc.h" />
+    <ClInclude Include="..\include\vorbis\vorbisfile.h" />
     <ClInclude Include="..\lib\window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="vorbis.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
