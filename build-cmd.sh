@@ -96,6 +96,11 @@ case "$AUTOBUILD_PLATFORM" in
         popd
     ;;
     "darwin")
+        DEVELOPER=$(xcode-select --print-path)
+        opts="-arch i386 -iwithsysroot ${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6"
+        export CFLAGS="$opts"
+        export CPPFLAGS="$opts"
+        export LDFLAGS="$opts"
         pushd "$OGG_SOURCE_DIR"
         ./configure --prefix="$stage"
         make
@@ -103,7 +108,7 @@ case "$AUTOBUILD_PLATFORM" in
         popd
         
         pushd "$VORBIS_SOURCE_DIR"
-        ./configure --prefix="$stage"
+        OGG_CFLAGS=-I"${stage}/include" OGG_LIBS="${stage}/lib/libogg.a" ./configure --prefix="$stage"
         make
         make install
         popd
