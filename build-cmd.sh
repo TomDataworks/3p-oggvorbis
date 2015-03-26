@@ -1,0 +1,185 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+# turn on verbose debugging output for parabuild logs.
+set -x
+# make errors fatal
+set -e
+
+if [ -z "$AUTOBUILD" ] ; then 
+    fail
+fi
+
+if [ "$OSTYPE" = "cygwin" ] ; then
+    export AUTOBUILD="$(cygpath -u $AUTOBUILD)"
+fi
+
+OGG_VERSION=1.3.2
+OGG_SOURCE_DIR="libogg-$OGG_VERSION"
+VORBIS_VERSION=1.3.4
+VORBIS_SOURCE_DIR=libvorbis-$VORBIS_VERSION
+
+# load autbuild provided shell functions and variables
+eval "$("$AUTOBUILD" source_environment)"
+
+top="$(pwd)"
+stage="$(pwd)/stage"
+
+echo "${OGG_VERSION}-${VORBIS_VERSION}" > "${stage}/VERSION.txt"
+
+case "$AUTOBUILD_PLATFORM" in
+    "windows")
+        pushd "$OGG_SOURCE_DIR"
+
+        packages="$(cygpath -m "$stage/packages")"
+
+        build_sln "win32/ogg.sln" "Debug|Win32" "ogg_static"
+        build_sln "win32/ogg.sln" "Release|Win32" "ogg_static"
+
+        mkdir -p "$stage/lib"/{debug,release}
+        cp "win32/Static_Debug/ogg_static_d.lib" "$stage/lib/debug/ogg_static_d.lib"
+        cp "win32/Static_Release/ogg_static.lib" "$stage/lib/release/ogg_static.lib"
+
+        mkdir -p "$stage/include"
+        cp -a "include/ogg/" "$stage/include/"
+        
+        popd
+        pushd "$VORBIS_SOURCE_DIR"
+        
+        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Release|Win32" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisfile_static"
+        
+        cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static_d.lib"
+        cp "win32/Vorbis_Static_Release/vorbis_static.lib" "$stage/lib/release/vorbis_static.lib"
+        cp "win32/VorbisEnc_Static_Debug/vorbisenc_static_d.lib" "$stage/lib/debug/vorbisenc_static_d.lib"
+        cp "win32/VorbisEnc_Static_Release/vorbisenc_static.lib" "$stage/lib/release/vorbisenc_static.lib"
+        cp "win32/VorbisFile_Static_Debug/vorbisfile_static_d.lib" "$stage/lib/debug/vorbisfile_static_d.lib"
+        cp "win32/VorbisFile_Static_Release/vorbisfile_static.lib" "$stage/lib/release/vorbisfile_static.lib"
+        cp -a "include/vorbis/" "$stage/include/"
+        popd
+    ;;
+    "windows64")
+        pushd "$OGG_SOURCE_DIR"
+
+        packages="$(cygpath -m "$stage/packages")"
+
+        build_sln "win32/ogg.sln" "Debug|x64" "ogg_static"
+        build_sln "win32/ogg.sln" "Release|x64" "ogg_static"
+
+        mkdir -p "$stage/lib"/{debug,release}
+        cp "win32/Static_Debug/ogg_static_d.lib" "$stage/lib/debug/ogg_static_d.lib"
+        cp "win32/Static_Release/ogg_static.lib" "$stage/lib/release/ogg_static.lib"
+
+        mkdir -p "$stage/include"
+        cp -a "include/ogg/" "$stage/include/"
+        
+        popd
+        pushd "$VORBIS_SOURCE_DIR"
+        
+        build_sln "win32/vorbis.sln" "Debug|x64" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Release|x64" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Debug|x64" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Release|x64" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Debug|x64" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Release|x64" "vorbisfile_static"
+        
+        cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static_d.lib"
+        cp "win32/Vorbis_Static_Release/vorbis_static.lib" "$stage/lib/release/vorbis_static.lib"
+        cp "win32/VorbisEnc_Static_Debug/vorbisenc_static_d.lib" "$stage/lib/debug/vorbisenc_static_d.lib"
+        cp "win32/VorbisEnc_Static_Release/vorbisenc_static.lib" "$stage/lib/release/vorbisenc_static.lib"
+        cp "win32/VorbisFile_Static_Debug/vorbisfile_static_d.lib" "$stage/lib/debug/vorbisfile_static_d.lib"
+        cp "win32/VorbisFile_Static_Release/vorbisfile_static.lib" "$stage/lib/release/vorbisfile_static.lib"
+        cp -a "include/vorbis/" "$stage/include/"
+        popd
+    ;;
+    "darwin")
+        DEVELOPER=$(xcode-select --print-path)
+        opts="-arch i386 -iwithsysroot ${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6"
+        export CFLAGS="$opts"
+        export CPPFLAGS="$opts"
+        export LDFLAGS="$opts"
+        pushd "$OGG_SOURCE_DIR"
+        ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+        OGG_CFLAGS=-I"${stage}/include" OGG_LIBS="${stage}/lib/libogg.a" ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        mv "$stage/lib" "$stage/release"
+        mkdir -p "$stage/lib"
+        mv "$stage/release" "$stage/lib"
+     ;;
+    "linux")
+        pushd "$OGG_SOURCE_DIR"
+        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"$stage/lib"
+        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
+        make
+        make install
+        popd
+        
+        mv "$stage/lib" "$stage/release"
+        mkdir -p "$stage/lib"
+        mv "$stage/release" "$stage/lib"
+    ;;
+    "linux64")
+        pushd "$OGG_SOURCE_DIR"
+
+        CFLAGS="-m64 -Og -g" \
+        CXXFLAGS="-m64 -Og -g -std=c++11" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
+        make
+        make install
+
+        make distclean
+
+        CFLAGS="-m64 -O3" \
+        CXXFLAGS="-m64 -O3 -std=c++11" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
+        make
+        make install
+
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+
+        CFLAGS="-m64 -Og -g" \
+        CXXFLAGS="-m64 -Og -g -std=c++11" \
+        LDFLAGS="-L$stage/lib/debug" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
+        make
+        make install
+
+        make distclean
+
+        CFLAGS="-m64 -O3" \
+        CXXFLAGS="-m64 -O3 -std=c++11" \
+        LDFLAGS="-L$stage/lib/release" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
+        make
+        make install
+        popd
+    ;;
+esac
+mkdir -p "$stage/LICENSES"
+pushd "$OGG_SOURCE_DIR"
+    cp COPYING "$stage/LICENSES/ogg-vorbis.txt"
+popd
+
+pass
+
