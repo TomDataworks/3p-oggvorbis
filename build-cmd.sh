@@ -157,39 +157,62 @@ case "$AUTOBUILD_PLATFORM" in
 
         pushd "$OGG_SOURCE_DIR"
 
-        CFLAGS="$opts -Og -g" \
-        CXXFLAGS="$opts -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g -fno-fast-math" \
+        CXXFLAGS="$opts -Og -g -fno-fast-math -std=c++11" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
         make -j$JOBS
         make install
 
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
         make distclean
 
-        CFLAGS="$opts -O3 -g" \
+        CFLAGS="$opts -O3 -g $HARDENED" \
         CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
         make -j$JOBS
         make install
 
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
+        make distclean
         popd
         
         pushd "$VORBIS_SOURCE_DIR"
 
-        CFLAGS="$opts -Og -g" \
-        CXXFLAGS="$opts -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g -fno-fast-math" \
+        CXXFLAGS="$opts -Og -g -fno-fast-math -std=c++11" \
         LDFLAGS="-L$stage/lib/debug" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
         make -j$JOBS
         make install
 
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
         make distclean
 
-        CFLAGS="$opts -O3 -g" \
+        CFLAGS="$opts -O3 -g $HARDENED" \
         CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         LDFLAGS="-L$stage/lib/release" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
         make -j$JOBS
         make install
+
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
+        make distclean
         popd
     ;;
     "linux64")
@@ -230,39 +253,63 @@ case "$AUTOBUILD_PLATFORM" in
 
         pushd "$OGG_SOURCE_DIR"
 
-        CFLAGS="$opts -Og -g" \
-        CXXFLAGS="$opts -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g -fno-fast-math" \
+        CXXFLAGS="$opts -Og -g -fno-fast-math -std=c++11" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
         make -j$JOBS
         make install
 
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
         make distclean
 
-        CFLAGS="$opts -O3 -g" \
+        CFLAGS="$opts -O3 -g $HARDENED" \
         CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
         make -j$JOBS
         make install
+
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
+        make distclean
 
         popd
         
         pushd "$VORBIS_SOURCE_DIR"
 
-        CFLAGS="$opts -Og -g" \
-        CXXFLAGS="$opts -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g -fno-fast-math" \
+        CXXFLAGS="$opts -Og -g -fno-fast-math -std=c++11" \
         LDFLAGS="-L$stage/lib/debug" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
         make -j$JOBS
         make install
 
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
         make distclean
 
-        CFLAGS="$opts -O3 -g" \
+        CFLAGS="$opts -O3 -g $HARDENED" \
         CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         LDFLAGS="-L$stage/lib/release" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
         make -j$JOBS
         make install
+
+        # conditionally run unit tests
+        if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            make check
+        fi
+
+        make distclean
         popd
     ;;
 esac
