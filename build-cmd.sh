@@ -16,9 +16,9 @@ if [ "$OSTYPE" = "cygwin" ] ; then
 fi
 
 OGG_VERSION=1.3.2
-OGG_SOURCE_DIR="libogg-$OGG_VERSION"
-VORBIS_VERSION=1.3.4
-VORBIS_SOURCE_DIR=libvorbis-$VORBIS_VERSION
+OGG_SOURCE_DIR="libogg"
+VORBIS_VERSION=1.3.5
+VORBIS_SOURCE_DIR="libvorbis"
 
 # load autbuild provided shell functions and variables
 eval "$("$AUTOBUILD" source_environment)"
@@ -120,58 +120,148 @@ case "$AUTOBUILD_PLATFORM" in
         mv "$stage/release" "$stage/lib"
      ;;
     "linux")
-        pushd "$OGG_SOURCE_DIR"
-        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
-        make
-        make install
-        popd
-        
-        pushd "$VORBIS_SOURCE_DIR"
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"$stage/lib"
-        CFLAGS="-m32" CXXFLAGS="-m32" ./configure --prefix="$stage"
-        make
-        make install
-        popd
-        
-        mv "$stage/lib" "$stage/release"
-        mkdir -p "$stage/lib"
-        mv "$stage/release" "$stage/lib"
-    ;;
-    "linux64")
+        # Linux build environment at Linden comes pre-polluted with stuff that can
+        # seriously damage 3rd-party builds.  Environmental garbage you can expect
+        # includes:
+        #
+        #    DISTCC_POTENTIAL_HOSTS     arch           root        CXXFLAGS
+        #    DISTCC_LOCATION            top            branch      CC
+        #    DISTCC_HOSTS               build_name     suffix      CXX
+        #    LSDISTCC_ARGS              repo           prefix      CFLAGS
+        #    cxx_version                AUTOBUILD      SIGN        CPPFLAGS
+        #
+        # So, clear out bits that shouldn't affect our configure-directed build
+        # but which do nonetheless.
+        #
+        # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
+
+        # Prefer gcc-4.8 if available.
+        if [[ -x /usr/bin/gcc-4.8 && -x /usr/bin/g++-4.8 ]]; then
+            export CC=/usr/bin/gcc-4.8
+            export CXX=/usr/bin/g++-4.8
+        fi
+
+        # Default target to 32-bit
+        opts="${TARGET_OPTS:--m32}"
+        JOBS=`cat /proc/cpuinfo | grep processor | wc -l`
+        HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
+
+        # Handle any deliberate platform targeting
+        if [ -z "$TARGET_CPPFLAGS" ]; then
+            # Remove sysroot contamination from build environment
+            unset CPPFLAGS
+        else
+            # Incorporate special pre-processing flags
+            export CPPFLAGS="$TARGET_CPPFLAGS"
+        fi
+
         pushd "$OGG_SOURCE_DIR"
 
-        CFLAGS="-m64 -Og -g" \
-        CXXFLAGS="-m64 -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g" \
+        CXXFLAGS="$opts -Og -g -std=c++11" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
-        make
+        make -j$JOBS
         make install
 
         make distclean
 
-        CFLAGS="-m64 -O3" \
-        CXXFLAGS="-m64 -O3 -std=c++11" \
+        CFLAGS="$opts -O3 -g" \
+        CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
-        make
+        make -j$JOBS
         make install
 
         popd
         
         pushd "$VORBIS_SOURCE_DIR"
 
-        CFLAGS="-m64 -Og -g" \
-        CXXFLAGS="-m64 -Og -g -std=c++11" \
+        CFLAGS="$opts -Og -g" \
+        CXXFLAGS="$opts -Og -g -std=c++11" \
         LDFLAGS="-L$stage/lib/debug" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
-        make
+        make -j$JOBS
         make install
 
         make distclean
 
-        CFLAGS="-m64 -O3" \
-        CXXFLAGS="-m64 -O3 -std=c++11" \
+        CFLAGS="$opts -O3 -g" \
+        CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
         LDFLAGS="-L$stage/lib/release" \
         ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
-        make
+        make -j$JOBS
+        make install
+        popd
+    ;;
+    "linux64")
+        # Linux build environment at Linden comes pre-polluted with stuff that can
+        # seriously damage 3rd-party builds.  Environmental garbage you can expect
+        # includes:
+        #
+        #    DISTCC_POTENTIAL_HOSTS     arch           root        CXXFLAGS
+        #    DISTCC_LOCATION            top            branch      CC
+        #    DISTCC_HOSTS               build_name     suffix      CXX
+        #    LSDISTCC_ARGS              repo           prefix      CFLAGS
+        #    cxx_version                AUTOBUILD      SIGN        CPPFLAGS
+        #
+        # So, clear out bits that shouldn't affect our configure-directed build
+        # but which do nonetheless.
+        #
+        # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
+
+        # Prefer gcc-4.8 if available.
+        if [[ -x /usr/bin/gcc-4.8 && -x /usr/bin/g++-4.8 ]]; then
+            export CC=/usr/bin/gcc-4.8
+            export CXX=/usr/bin/g++-4.8
+        fi
+
+        # Default target to 64-bit
+        opts="${TARGET_OPTS:--m64}"
+        JOBS=`cat /proc/cpuinfo | grep processor | wc -l`
+        HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
+
+        # Handle any deliberate platform targeting
+        if [ -z "$TARGET_CPPFLAGS" ]; then
+            # Remove sysroot contamination from build environment
+            unset CPPFLAGS
+        else
+            # Incorporate special pre-processing flags
+            export CPPFLAGS="$TARGET_CPPFLAGS"
+        fi
+
+        pushd "$OGG_SOURCE_DIR"
+
+        CFLAGS="$opts -Og -g" \
+        CXXFLAGS="$opts -Og -g -std=c++11" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
+        make -j$JOBS
+        make install
+
+        make distclean
+
+        CFLAGS="$opts -O3 -g" \
+        CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
+        make -j$JOBS
+        make install
+
+        popd
+        
+        pushd "$VORBIS_SOURCE_DIR"
+
+        CFLAGS="$opts -Og -g" \
+        CXXFLAGS="$opts -Og -g -std=c++11" \
+        LDFLAGS="-L$stage/lib/debug" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/debug"
+        make -j$JOBS
+        make install
+
+        make distclean
+
+        CFLAGS="$opts -O3 -g" \
+        CXXFLAGS="$opts -O3 -g -std=c++11 $HARDENED" \
+        LDFLAGS="-L$stage/lib/release" \
+        ./configure --with-pic --prefix="$stage" --libdir="$stage/lib/release"
+        make -j$JOBS
         make install
         popd
     ;;
