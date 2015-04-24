@@ -12,7 +12,7 @@
       <key>license_file</key>
       <string>LICENSES/ogg-vorbis.txt</string>
       <key>name</key>
-      <string>ogg-vorbis</string>
+      <string>ogg_vorbis</string>
       <key>platforms</key>
       <map>
         <key>common</key>
