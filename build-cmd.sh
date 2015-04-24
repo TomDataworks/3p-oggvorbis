@@ -99,7 +99,7 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
     "darwin")
         DEVELOPER=$(xcode-select --print-path)
-        opts="-arch i386 -iwithsysroot ${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6"
+        opts="-arch x86_64 -iwithsysroot ${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -mmacosx-version-min=10.8"
         export CFLAGS="$opts"
         export CPPFLAGS="$opts"
         export LDFLAGS="$opts"
