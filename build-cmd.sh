@@ -104,13 +104,14 @@ case "$AUTOBUILD_PLATFORM" in
         export CPPFLAGS="$opts"
         export LDFLAGS="$opts"
         pushd "$OGG_SOURCE_DIR"
-        ./configure --prefix="$stage"
+        ./configure --prefix="$stage" --enable-shared=no --enable-static=yes
         make
         make install
         popd
         
         pushd "$VORBIS_SOURCE_DIR"
-        OGG_CFLAGS=-I"${stage}/include" OGG_LIBS="${stage}/lib/libogg.a" ./configure --prefix="$stage"
+        ./configure --prefix="$stage" --enable-shared=no --enable-static=yes \
+			--with-ogg-libraries="${stage}/lib" --with-ogg-includes="${stage}/include"
         make
         make install
         popd
