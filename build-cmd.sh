@@ -34,8 +34,8 @@ case "$AUTOBUILD_PLATFORM" in
 
         packages="$(cygpath -m "$stage/packages")"
 
-        build_sln "win32/ogg.sln" "Debug|Win32" "ogg_static"
-        build_sln "win32/ogg.sln" "Release|Win32" "ogg_static"
+        build_sln "win32/ogg.sln" "Debug" "Win32" "ogg_static"
+        build_sln "win32/ogg.sln" "Release" "Win32" "ogg_static"
 
         mkdir -p "$stage/lib"/{debug,release}
         cp "win32/Static_Debug/ogg_static_d.lib" "$stage/lib/debug/ogg_static_d.lib"
@@ -47,12 +47,12 @@ case "$AUTOBUILD_PLATFORM" in
         popd
         pushd "$VORBIS_SOURCE_DIR"
         
-        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbis_static"
-        build_sln "win32/vorbis.sln" "Release|Win32" "vorbis_static"
-        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisenc_static"
-        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisenc_static"
-        build_sln "win32/vorbis.sln" "Debug|Win32" "vorbisfile_static"
-        build_sln "win32/vorbis.sln" "Release|Win32" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Debug" "Win32" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Release" "Win32" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Debug" "Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Release" "Win32" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Debug" "Win32" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Release" "Win32" "vorbisfile_static"
         
         cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static_d.lib"
         cp "win32/Vorbis_Static_Release/vorbis_static.lib" "$stage/lib/release/vorbis_static.lib"
@@ -68,8 +68,8 @@ case "$AUTOBUILD_PLATFORM" in
 
         packages="$(cygpath -m "$stage/packages")"
 
-        build_sln "win32/ogg.sln" "Debug|x64" "ogg_static"
-        build_sln "win32/ogg.sln" "Release|x64" "ogg_static"
+        build_sln "win32/ogg.sln" "Debug" "x64" "ogg_static"
+        build_sln "win32/ogg.sln" "Release" "x64" "ogg_static"
 
         mkdir -p "$stage/lib"/{debug,release}
         cp "win32/Static_Debug/ogg_static_d.lib" "$stage/lib/debug/ogg_static_d.lib"
@@ -81,12 +81,12 @@ case "$AUTOBUILD_PLATFORM" in
         popd
         pushd "$VORBIS_SOURCE_DIR"
         
-        build_sln "win32/vorbis.sln" "Debug|x64" "vorbis_static"
-        build_sln "win32/vorbis.sln" "Release|x64" "vorbis_static"
-        build_sln "win32/vorbis.sln" "Debug|x64" "vorbisenc_static"
-        build_sln "win32/vorbis.sln" "Release|x64" "vorbisenc_static"
-        build_sln "win32/vorbis.sln" "Debug|x64" "vorbisfile_static"
-        build_sln "win32/vorbis.sln" "Release|x64" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Debug" "x64" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Release" "x64" "vorbis_static"
+        build_sln "win32/vorbis.sln" "Debug" "x64" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Release" "x64" "vorbisenc_static"
+        build_sln "win32/vorbis.sln" "Debug" "x64" "vorbisfile_static"
+        build_sln "win32/vorbis.sln" "Release" "x64" "vorbisfile_static"
         
         cp "win32/Vorbis_Static_Debug/vorbis_static_d.lib" "$stage/lib/debug/vorbis_static_d.lib"
         cp "win32/Vorbis_Static_Release/vorbis_static.lib" "$stage/lib/release/vorbis_static.lib"
